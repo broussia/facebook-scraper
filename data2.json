@@ -1,0 +1,89 @@
+{
+  "nodes":[
+    {
+      "id": "1",
+      "name": "韦小宝",
+      "symbolSize": 60,
+      "category": 0
+    },
+    {
+      "id": "2",
+      "name": "方亦",
+      "symbolSize": 60,
+      "category": 1
+    },
+    {
+      "id": "3",
+      "name": "双儿",
+      "symbolSize": 60,
+      "category": 2
+    },
+    {
+      "id": "4",
+      "name": "丁真",
+      "symbolSize": 60,
+      "category": 0
+    },
+    {
+      "id": "5",
+      "name": "黄老爷",
+      "symbolSize": 60,
+      "category": 0
+    }
+  ],
+  "links": [
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    }
+  ],
+  "categories": [
+    {
+      "name": "A"
+    },
+    {
+      "name": "B"
+    },
+    {
+      "name": "C"
+    },
+    {
+      "name": "D"
+    },
+    {
+      "name": "E"
+    },
+    {
+      "name": "F"
+    },
+    {
+      "name": "G"
+    },
+    {
+      "name": "H"
+    },
+    {
+      "name": "I"
+    }
+  ]
+}
