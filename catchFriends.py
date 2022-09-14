@@ -19,7 +19,7 @@ login(browser)
 
 # 好友列表结构：#https://www.facebook.com/rushan.abbas/following
 # 构造url
-hostname = 'antony.olentiati'
+hostname = 'kene.shadrack.79'
 # Wang.Dingyuan
 # kene.shadrack.79
 # jbkatente.king
@@ -27,7 +27,8 @@ hostname = 'antony.olentiati'
 url = 'https://www.facebook.com/' + hostname + '/friends'
 print(url)
 browser.get(url)
-hostname_xpath = '//*[@class="j83agx80 cbu4d94t obtkqiv7 sv5sfqaa"]/div'
+time.sleep(1)
+hostname_xpath = '//*[@class="alzwoclg cqf1kptm kzdo7wvt osvssn79"]/div'
 hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
 print(hostname)
 
@@ -44,14 +45,16 @@ while t:
         t = False
 
 # 定位好友信息对应的元素
-following_path = "//div[@class='dati1w0a ihqw7lf3 hv4rvrfc discj3wi']/div[@class='j83agx80 btwxx1t3 lhclo0ds i1fnvgqd']/div"
+following_path = "//div[@class='gt60zsk1 ez8dtbzv r227ecj6 g4qalytl']/div[@class='alzwoclg jl2a5g8c o7bt71qk sl27f92c']/div"
 num = 1
+# print(following_path)
 elements = browser.find_elements_by_xpath(following_path)
 # 抓取前100个好友信息
 for num in range(1, len(elements) - 1):
     item = {}
     # 获取好友名字
     namepath = following_path + "[" + str(num) + "]/div[2]/div/a/span"
+    # print(namepath)
     try:
         name = browser.find_element_by_xpath(namepath).text
     except:
