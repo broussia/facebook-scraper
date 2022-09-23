@@ -45,6 +45,7 @@ $.getJSON('data.json', function (data) {
             layout: 'force', //图的布局，类型为力导图
             symbolSize: 20, // 调整节点的大小
             roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+            draggable: false,
             edgeSymbol: ['circle', 'arrow'],
                 edgeSymbolSize: [1, 2],
                 edgeLabel: {
@@ -82,7 +83,6 @@ $.getJSON('data.json', function (data) {
                 textBorderWidth: 2,
               },
             },
-            draggable: true,
             label: {
                 normal: {
                     show: true,
@@ -97,6 +97,10 @@ $.getJSON('data.json', function (data) {
         ]
     };
     myChart.setOption(option);
+    myChart.on('click', function(params) {
+        console.log(params.data.weblink);
+        window.open(params.data.weblink);
+});
 });
 
 option && myChart.setOption(option);

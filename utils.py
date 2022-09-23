@@ -11,10 +11,6 @@ import os
 
 # 设置浏览器
 def chrome_setting():
-    """
-
-    :rtype: object
-    """
     options = webdriver.ChromeOptions()
     prefs = {
         'profile.default_content_setting_values':
@@ -23,6 +19,10 @@ def chrome_setting():
     options.add_experimental_option('prefs', prefs)
     # options.binary_location = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
+    # linux环境
+    # browser = webdriver.Chrome(r"/root/facebook-scraper/facebook-scraper/chromedriver",chrome_options=options)
+
+    # win环境
     browser = webdriver.Chrome(r"D:\programs\chromedriver.exe")
     browser.maximize_window()  # 浏览器窗口最大化
     browser.implicitly_wait(10)
@@ -31,13 +31,22 @@ def chrome_setting():
 
 # 设置数据库
 def db_settings():
-    # 设置数据库
+    # 设置数据库 win环境
     fbDB = pymysql.connect(
         host="127.0.0.1",
         port=3306,
         user="root",
         password="123456",
         charset="utf8mb4",
+        database="fbfriends"
+    )
+    #Linux环境
+    fbDB = pymysql.connect(
+        host="localhost",
+        port=3306,
+        user="root",
+        password="123456",
+        charset="utf8",
         database="fbfriends"
     )
     cursor = fbDB.cursor()

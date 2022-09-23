@@ -4,14 +4,14 @@ import os
 
 from utils import db_settings
 
-score = 35
+score = 21
 categories = []
 nodes = []
 links = []
 
 cursor = db_settings()
 
-sql_get_host = "select distinct i_host from fbfriends.intimacy where total_score >= {}".format(score)
+sql_get_host = "select name,h_link from fbfriends.hosts"
 cursor.execute(sql_get_host)
 hosts = cursor.fetchall()
 now = 0
@@ -19,9 +19,11 @@ for host in hosts:
     # print (host)
     categories.append({'name': host[0]})
     nodes.append({'name': host[0],
-                  'symbolSize': 50,
-                  'category': now})
-    sql_get_nodes_and_links = "select i_name,total_score from fbfriends.intimacy where total_score >= {} and i_host = \'{}\' ".format(
+                  'symbolSize': 100,
+                  'category': now,
+                  'weblink': host[1]
+                  })
+    sql_get_nodes_and_links = "select i_name,total_score,i_link from fbfriends.intimacy where total_score >= {} and i_host = \'{}\' ".format(
         score, host[0])
     # print(sql_get_nodes_and_links)
     cursor.execute(sql_get_nodes_and_links)
@@ -29,6 +31,7 @@ for host in hosts:
     for content in contents:
         i_name = content[0]
         total_score = content[1]
+        link = content[2]
         hasname = False
         for host_judge in hosts:
             if i_name == host_judge[0]:
@@ -36,7 +39,8 @@ for host in hosts:
         if not hasname:
             nodes.append({'name': i_name,
                           'symbolSize': 50,
-                          'category': now})
+                          'category': now,
+                          'weblink': link})
 
         links.append({'source': host[0],
                       'target': i_name,
