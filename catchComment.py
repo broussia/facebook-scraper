@@ -153,4 +153,4 @@ def catchComments(url, browser, cursor):
     browser.close()
 
 
-exit()
+# exit()

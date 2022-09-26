@@ -88,4 +88,4 @@ def catchFriends(host, browser, cursor):
     browser.close()
 
 
-exit()
+# exit()
