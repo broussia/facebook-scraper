@@ -26,6 +26,7 @@ host = 'kook.wanwisa.1'
 # Wang.Dingyuan
 # kene.shadrack.79
 def catchComments(url, browser, cursor):
+    print(url)
     browser.get(url)
     hostname_xpath = '//*[@class="alzwoclg cqf1kptm kzdo7wvt osvssn79"]/div'
     hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
@@ -65,18 +66,28 @@ def catchComments(url, browser, cursor):
             time.sleep(1)
             # 滚动点赞页面
             t = True
+            fail_times = 0;
             while t:
+                time.sleep(1)
                 js = 'return document.getElementsByClassName("r7ybg2qv qbc87b33 jk4gexc9 alzwoclg cqf1kptm lq84ybu9 g4tp4svg ly56v2vv h67akvdo ir1gxh3s sqler345 by1hb0a5 id4k59z1 jfw19y2w om3e55n1 b95sz57d mm05nxu8 izce65as kzemv7a0 q46jt4gp oxkhqvkx r5g9zsuq nch0832m")[0].scrollHeight;'
                 js2 = 'document.getElementsByClassName("r7ybg2qv qbc87b33 jk4gexc9 alzwoclg cqf1kptm lq84ybu9 g4tp4svg ly56v2vv h67akvdo ir1gxh3s sqler345 by1hb0a5 id4k59z1 jfw19y2w om3e55n1 b95sz57d mm05nxu8 izce65as kzemv7a0 q46jt4gp oxkhqvkx r5g9zsuq nch0832m")[0].scrollTop=10000;'
-                check_height = browser.execute_script(js)
-                for r in range(5):
-                    # t = random.uniform(1, 2)
-                    time.sleep(1)
-                    browser.execute_script(js2)
-                check_height1 = browser.execute_script(js)
-                if check_height == check_height1:
-                    t = False
-                pass
+                try:
+                    check_height = browser.execute_script(js)
+                    for r in range(5):
+                        # t = random.uniform(1, 2)
+                        time.sleep(1)
+                        browser.execute_script(js2)
+                    check_height1 = browser.execute_script(js)
+                    if check_height == check_height1:
+                        t = False
+                    pass
+                except:
+                    print("下滑失败，重试中")
+                    fail_times += 1
+                    if fail_times > 3:
+                        fail_times = 0
+                        break
+                    time.sleep(3)
 
             # 获取点赞人信息
             like_people_xpath = '//*[@class="r7ybg2qv qbc87b33 jk4gexc9 alzwoclg cqf1kptm lq84ybu9 g4tp4svg ly56v2vv h67akvdo ir1gxh3s sqler345 by1hb0a5 id4k59z1 jfw19y2w om3e55n1 b95sz57d mm05nxu8 izce65as kzemv7a0 q46jt4gp oxkhqvkx r5g9zsuq nch0832m"]/div/div'
@@ -89,7 +100,7 @@ def catchComments(url, browser, cursor):
                     continue
                 link_xpath = like_people_xpath + '[' + str(like_num) + ']/div/div/div/div/a'
                 link = browser.find_element_by_xpath(link_xpath).get_attribute("href").split('[0]')[0]
-                print(link)
+                print("like link: "+link)
                 like_num += 1
                 sql = "insert into fbfriends.likes values (0,\'{}\',\'{}\',\'{}\',\'{}\',false)".format(hostname, name,
                                                                                                         str(num + 1),
@@ -141,7 +152,7 @@ def catchComments(url, browser, cursor):
             if c_name == "":
                 continue
             comment_link = comment_links[n].get_attribute("href").split('[0]')[0]
-            print(comment_link)
+            print("comment link : "+comment_link)
             # c_comment = comment_content[n].text.replace("'", " ")
             sql_comment = "insert into fbfriends.comments values (0,\'{}\',\'{}\',null,\'{}\',\'{}\',false)".format(
                 hostname, c_name,
@@ -149,8 +160,8 @@ def catchComments(url, browser, cursor):
             # print(sql_comment)
             cursor.execute(sql_comment)
             cursor.connection.commit()
-    cursor.close()
-    browser.close()
+    # cursor.close()
+    # browser.close()
 
 
 # exit()

@@ -84,8 +84,8 @@ def catchFriends(host, browser, cursor):
     cursor.connection.commit()
 
     print('finish')
-    cursor.close()
-    browser.close()
+    # cursor.close()
+    # browser.close()
 
 
 # exit()

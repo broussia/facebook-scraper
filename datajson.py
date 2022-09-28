@@ -11,7 +11,7 @@ links = []
 
 cursor = db_settings()
 
-sql_get_host = "select name,h_link from fbfriends.hosts"
+sql_get_host = "select h_name,h_link from fbfriends.hosts"
 cursor.execute(sql_get_host)
 hosts = cursor.fetchall()
 now = 0

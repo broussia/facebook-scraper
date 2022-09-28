@@ -12,6 +12,10 @@ hosts = cursor.fetchall()
 browser = chrome_setting()
 login(browser)
 for host in hosts:
-    print(host[0])
-    catchFriends(host[1], browser, cursor)
+    # print(host[0])
+    # catchFriends(host[1], browser, cursor)
     catchComments(host[1], browser, cursor)
+
+browser.close()
+cursor.close()
+exit()
