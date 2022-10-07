@@ -25,7 +25,8 @@ def chrome_setting():
     # options.add_argument("window-size=1024,768")
     
     options.add_argument("--no-sandbox")
-    # options.add_argument("--remote-debugging-port=9222")  # this
+    
+    options.add_argument("--remote-debugging-port=9222")  # this
 
     # linux环境
     browser = webdriver.Chrome(r"/root/facebook-scraper/chromedriver",chrome_options=options)

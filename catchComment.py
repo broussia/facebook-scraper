@@ -26,7 +26,7 @@ host = 'kook.wanwisa.1'
 # Wang.Dingyuan
 # kene.shadrack.79
 def catchComments(url, browser, cursor):
-    print(url)
+    print("*******"+url+"******")
     browser.get(url)
     hostname_xpath = '//*[@class="alzwoclg cqf1kptm kzdo7wvt osvssn79"]/div'
     hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
@@ -45,7 +45,7 @@ def catchComments(url, browser, cursor):
     # like = browser.find_elements_by_xpath(like_class)
 
     # num = 0
-    for num in range(1000):
+    for num in range(100):
         find = True
         posts_path = '//*[@class="bdao358l om3e55n1 g4tp4svg aeinzg81 i15ihif8 th51lws0 h07fizzr mfn553m3 jbg88c62 s9djjbeh t1fg2s7t sjylff4p poaa5t79"]/div[2]/div[' + str(
             num + 1) + ']'
