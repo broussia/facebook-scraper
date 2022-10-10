@@ -28,7 +28,7 @@ host = 'kook.wanwisa.1'
 def catchComments(url, browser, cursor):
     print("*******"+url+"******")
     browser.get(url)
-    hostname_xpath = '//*[@class="alzwoclg cqf1kptm kzdo7wvt osvssn79"]/div'
+    hostname_xpath = '//*[@class="x78zum5 xdt5ytf x1wsgfga x9otpla"]/div'
     hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
     # print(hostname)
     # 下拉滑动条至底部，加载出所有好友信息
@@ -47,14 +47,14 @@ def catchComments(url, browser, cursor):
     # num = 0
     for num in range(100):
         find = True
-        posts_path = '//*[@class="bdao358l om3e55n1 g4tp4svg aeinzg81 i15ihif8 th51lws0 h07fizzr mfn553m3 jbg88c62 s9djjbeh t1fg2s7t sjylff4p poaa5t79"]/div[2]/div[' + str(
+        posts_path = '//*[@class="x9f619 x1n2onr6 x1ja2u2z xeuugli xs83m0k x1xmf6yo x1emribx x1e56ztr x1i64zmx xjl7jj x19h7ccj xu9j1y6 x7ep2pv"]/div[2]/div[' + str(
             num + 1) + ']'
         posts = browser.find_elements_by_xpath(posts_path)
 
         sql_post = "insert into fbfriends.posts values(0,\'{}\','null')".format(num + 1)
         cursor.execute(sql_post)
         cursor.connection.commit()
-        like_class = posts_path + '//*[@class="i85zmo3j alzwoclg cgu29s5g lq84ybu9 hf30pyar"]/div'
+        like_class = posts_path + '//*[@class="x6s0dn4 x78zum5 x1iyjqo2 x6ikm8r x10wlt62"]/div'
         browser.execute_script("window.scrollBy(0,500)")
         like = browser.find_elements_by_xpath(like_class)
         if len(like) == 0:
@@ -69,8 +69,8 @@ def catchComments(url, browser, cursor):
             fail_times = 0;
             while t:
                 time.sleep(1)
-                js = 'return document.getElementsByClassName("r7ybg2qv qbc87b33 jk4gexc9 alzwoclg cqf1kptm lq84ybu9 g4tp4svg ly56v2vv h67akvdo ir1gxh3s sqler345 by1hb0a5 id4k59z1 jfw19y2w om3e55n1 b95sz57d mm05nxu8 izce65as kzemv7a0 q46jt4gp oxkhqvkx r5g9zsuq nch0832m")[0].scrollHeight;'
-                js2 = 'document.getElementsByClassName("r7ybg2qv qbc87b33 jk4gexc9 alzwoclg cqf1kptm lq84ybu9 g4tp4svg ly56v2vv h67akvdo ir1gxh3s sqler345 by1hb0a5 id4k59z1 jfw19y2w om3e55n1 b95sz57d mm05nxu8 izce65as kzemv7a0 q46jt4gp oxkhqvkx r5g9zsuq nch0832m")[0].scrollTop=10000;'
+                js = 'return document.getElementsByClassName("xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd")[0].scrollHeight;'
+                js2 = 'document.getElementsByClassName("xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd")[0].scrollTop=10000;'
                 try:
                     check_height = browser.execute_script(js)
                     for r in range(5):
@@ -90,7 +90,7 @@ def catchComments(url, browser, cursor):
                     time.sleep(3)
 
             # 获取点赞人信息
-            like_people_xpath = '//*[@class="r7ybg2qv qbc87b33 jk4gexc9 alzwoclg cqf1kptm lq84ybu9 g4tp4svg ly56v2vv h67akvdo ir1gxh3s sqler345 by1hb0a5 id4k59z1 jfw19y2w om3e55n1 b95sz57d mm05nxu8 izce65as kzemv7a0 q46jt4gp oxkhqvkx r5g9zsuq nch0832m"]/div/div'
+            like_people_xpath = '//*[@class="xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd"]/div/div'
             like_peoples = browser.find_elements_by_xpath(like_people_xpath)
             like_num = 1
 
@@ -108,13 +108,13 @@ def catchComments(url, browser, cursor):
                 cursor.execute(sql)
                 # print(name)
             cursor.connection.commit()
-            close_xpath = '//*[@class="qi72231t n3hqoq4p r86q59rh b3qcqh3k fq87ekyn fsf7x5fv s5oniofx m8h3af8h l7ghb35v kjdc1dyq kmwttqpk cr00lzj9 rn8ck1ys s3jn8y49 f14ij5to l3ldwz01 icdlwmnq i85zmo3j qmqpeqxj e7u6y3za qwcclf47 nmlomj2f frfouenu bonavkto djs4p424 r7bn319e bdao358l alzwoclg jcxyg2ei srn514ro oxkhqvkx rl78xhln nch0832m om3e55n1 jvc6uz2b g90fjkqk a5wdgl2o"]'
+            close_xpath = '//*[@class="x1i10hfl x6umtig x1b1mbwd xaqea5y xav7gou x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r x16tdsg8 x1hl2dhg xggy1nq x87ps6o x1lku1pv x1a2a7pz x6s0dn4 x14yjl9h xudhj91 x18nykt9 xww2gxu x972fbf xcfux6l x1qhh985 xm0m39n x9f619 x78zum5 xl56j7k xexx8yu x4uap5 x18d9i69 xkhd6sd x1n2onr6 xc9qbxq x14qfxbe x1qhmfi1"]'
             close = browser.find_element_by_xpath(close_xpath)
             ActionChains(browser).click(close).perform()
             pass
 
         # 展开所有评论
-        view_more_comment_xpath = posts_path + '//*[@class="alzwoclg lxowtz8q aeinzg81"]'
+        view_more_comment_xpath = posts_path + '//*[@class="x78zum5 x1w0mnb xeuugli"]'
         # print(view_more_comment_xpath)
         view_more_comment = browser.find_elements_by_xpath(view_more_comment_xpath)
         times = 0
@@ -123,14 +123,14 @@ def catchComments(url, browser, cursor):
                 try:
                     ActionChains(browser).click(view_more_comment[i]).perform()
                 except:
-                    # print('点击失败')
+                    print('点击失败')
                     pass
 
                 time.sleep(1)
             view_more_comment = browser.find_elements_by_xpath(view_more_comment_xpath)
             times += 1
         # 获取评论信息
-        comment_people_xpath = posts_path + '//*[@class="e4ay1f3w r5g9zsuq aesu6q9g q46jt4gp"]'
+        comment_people_xpath = posts_path + '//*[@class="x1ye3gou xwib8y2 xn6708d x1y1aw1k"]'
         # print(comment_people_xpath)
         comment_people = browser.find_elements_by_xpath(comment_people_xpath)
         comment_link_xpath = comment_people_xpath + '/span/a'

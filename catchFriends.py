@@ -32,7 +32,7 @@ def catchFriends(host, browser, cursor):
     print(url)
     browser.get(url)
     time.sleep(1)
-    hostname_xpath = '//*[@class="alzwoclg cqf1kptm kzdo7wvt osvssn79"]/div'
+    hostname_xpath = '//*[@class="x78zum5 xdt5ytf x1wsgfga x9otpla"]/div'
     hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
     print(hostname)
 
@@ -49,7 +49,7 @@ def catchFriends(host, browser, cursor):
             t = False
 
     # 定位好友信息对应的元素
-    following_path = "//div[@class='gt60zsk1 ez8dtbzv r227ecj6 g4qalytl']/div[@class='alzwoclg jl2a5g8c o7bt71qk sl27f92c']/div"
+    following_path = "//div[@class='x1swvt13 x1l90r2v x1pi30zi xyamay9']/div[@class='x78zum5 x1q0g3np x1a02dak x1qughib']/div"
     num = 1
     # print(following_path)
     elements = browser.find_elements_by_xpath(following_path)
@@ -84,8 +84,7 @@ def catchFriends(host, browser, cursor):
     cursor.connection.commit()
 
     print('finish')
-    # cursor.close()
-    # browser.close()
+
 
 
 # exit()
