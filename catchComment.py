@@ -58,15 +58,20 @@ def catchComments(url, browser, cursor):
         browser.execute_script("window.scrollBy(0,500)")
         like = browser.find_elements_by_xpath(like_class)
         if len(like) == 0:
-            print("本篇无人点赞，跳过")
+            browser.save_screenshot('/root/facebook-scraper/screenshots/failOn'+str(num)+'.png')
+            print("本篇无人点赞，跳过  "+like_class)
             find = False
         if find:
             # print(like_class)
-            ActionChains(browser).click(like[0]).perform()
-            time.sleep(1)
+            try:
+                ActionChains(browser).click(like[0]).perform()
+                time.sleep(1)
+            except:
+                continue
             # 滚动点赞页面
             t = True
             fail_times = 0;
+            failtoslip = False
             while t:
                 time.sleep(1)
                 js = 'return document.getElementsByClassName("xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd")[0].scrollHeight;'
@@ -82,13 +87,16 @@ def catchComments(url, browser, cursor):
                         t = False
                     pass
                 except:
-                    print("下滑失败，重试中")
+                    # print("下滑失败，重试中")
                     fail_times += 1
                     if fail_times > 3:
                         fail_times = 0
+                        failtoslip = True
                         break
                     time.sleep(3)
-
+            if failtoslip:
+                print("下滑失败")
+                continue
             # 获取点赞人信息
             like_people_xpath = '//*[@class="xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd"]/div/div'
             like_peoples = browser.find_elements_by_xpath(like_people_xpath)
@@ -109,7 +117,10 @@ def catchComments(url, browser, cursor):
                 # print(name)
             cursor.connection.commit()
             close_xpath = '//*[@class="x1i10hfl x6umtig x1b1mbwd xaqea5y xav7gou x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r x16tdsg8 x1hl2dhg xggy1nq x87ps6o x1lku1pv x1a2a7pz x6s0dn4 x14yjl9h xudhj91 x18nykt9 xww2gxu x972fbf xcfux6l x1qhh985 xm0m39n x9f619 x78zum5 xl56j7k xexx8yu x4uap5 x18d9i69 xkhd6sd x1n2onr6 xc9qbxq x14qfxbe x1qhmfi1"]'
-            close = browser.find_element_by_xpath(close_xpath)
+            try:
+                close = browser.find_element_by_xpath(close_xpath)
+            except:
+                browser.save_screenshot('login_file.png')
             ActionChains(browser).click(close).perform()
             pass
 

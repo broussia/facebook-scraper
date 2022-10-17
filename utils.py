@@ -16,22 +16,22 @@ def chrome_setting():
         'profile.default_content_setting_values':
             {'notifications': 2}  # 禁止谷歌浏览器弹出通知消息
     }
-    # options.add_experimental_option('prefs', prefs)
-    #
-    # options.add_argument('--headless')
-    #
-    # options.add_argument('--disable-gpu')
-    #
-    # options.add_argument("--no-sandbox")
+    options.add_experimental_option('prefs', prefs)
+    
+    options.add_argument('--headless')
+    
+    options.add_argument('--disable-gpu')
+    
+    options.add_argument("--no-sandbox")
     
     options.add_argument("--remote-debugging-port=9222")  # this
 
     # linux环境
-    # browser = webdriver.Chrome(r"/root/facebook-scraper/chromedriver",chrome_options=options)
+    browser = webdriver.Chrome(r"/root/facebook-scraper/chromedriver",chrome_options=options)
 
     # win环境
-    browser = webdriver.Chrome(r"D:\programs\chromedriver.exe")
-    browser.maximize_window()  # 浏览器窗口最大化
+    # browser = webdriver.Chrome(r"D:\programs\chromedriver.exe")
+    # browser.maximize_window()  # 浏览器窗口最大化
     browser.implicitly_wait(10)
     return browser
 
@@ -75,13 +75,13 @@ def login(browser):
         time.sleep(2)
 
     # 输入账户密码
+    # browser.save_screenshot('login_file.png')
     browser.find_element_by_id('email').clear()
     browser.find_element_by_id('email').send_keys('leopshk@outlook.com')
     browser.find_element_by_id('pass').clear()
     browser.find_element_by_id('pass').send_keys('aa112211')
     # 模拟点击登录按钮，两种不同的点击方法
     try:
-        browser.save_screenshot('login_file.png')
         browser.find_element_by_xpath('//button[@id="loginbutton"]').send_keys(Keys.ENTER)
     except:
         # browser.find_element_by_xpath('//input[@tabindex="4"]').send_keys(Keys.ENTER)
