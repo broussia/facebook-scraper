@@ -8,6 +8,7 @@ score = 21
 categories = []
 nodes = []
 links = []
+names = []
 
 cursor = db_settings()
 
@@ -23,6 +24,7 @@ for host in hosts:
                   'category': now,
                   'weblink': host[1]
                   })
+    names.append(host[0])
     sql_get_nodes_and_links = "select i_name,total_score,i_link from fbfriends.intimacy where total_score >= {} and i_host = \'{}\' ".format(
         score, host[0])
     # print(sql_get_nodes_and_links)
@@ -33,14 +35,15 @@ for host in hosts:
         total_score = content[1]
         link = content[2]
         hasname = False
-        for host_judge in hosts:
-            if i_name == host_judge[0]:
+        for name_judge in names:
+            if i_name == name_judge[0]:
                 hasname = True
         if not hasname:
             nodes.append({'name': i_name,
                           'symbolSize': 50,
                           'category': now,
                           'weblink': link})
+            names.append(i_name);
 
         links.append({'source': host[0],
                       'target': i_name,
