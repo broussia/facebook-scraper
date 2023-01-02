@@ -45,7 +45,7 @@ for like in likes:
     id = like[3]
     if l_friend == '':
         continue
-    sql_is_exist = "select * from fbfriends.intimacy where i_name = \'{}\'".format(l_friend)
+    sql_is_exist = "select * from fbfriends.intimacy where i_host = \'{}\' and i_name = \'{}\'".format(l_host ,l_friend)
     cursor.execute(sql_is_exist)
     if len(cursor.fetchall()) > 0:
         sql_update_like = "update fbfriends.intimacy set like_score = like_score + {} where i_name = \'{}\'".format(
@@ -69,7 +69,7 @@ for comment in comments:
     id = comment[3]
     if c_name == c_host:
         continue
-    sql_is_exist = "select * from fbfriends.intimacy where i_name = \'{}\'".format(c_name)
+    sql_is_exist = "select * from fbfriends.intimacy where i_host = \'{}\' and i_name = \'{}\'".format(c_host, c_name)
     cursor.execute(sql_is_exist)
     if len(cursor.fetchall()) > 0:
         sql_update_comment = "update fbfriends.intimacy set comment_score = comment_score + {} where i_name = \'{}\'".format(

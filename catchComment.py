@@ -3,6 +3,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import configparser
+
 import pandas as pd
 import xlsxwriter
 import json
@@ -26,11 +28,17 @@ host = 'kook.wanwisa.1'
 # Wang.Dingyuan
 # kene.shadrack.79
 def catchComments(url, browser, cursor):
+
+    config = configparser.ConfigParser()
+    path = 'xpaths.ini'
+    config.read(path)
+
     print("*******"+url+"******")
     browser.get(url)
-    hostname_xpath = '//*[@class="x78zum5 xdt5ytf x1wsgfga x9otpla"]/div'
+    # hostname_xpath = '//*[@class="x78zum5 xdt5ytf x1wsgfga x9otpla"]/div'
+    hostname_xpath = config.get('common', 'hostname_xpath')
     hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
-    # print(hostname)
+    print(hostname)
     # 下拉滑动条至底部，加载出所有好友信息
     # tobuttom(browser)
 
@@ -47,19 +55,19 @@ def catchComments(url, browser, cursor):
     # num = 0
     for num in range(100):
         find = True
-        posts_path = '//*[@class="x9f619 x1n2onr6 x1ja2u2z xeuugli xs83m0k x1xmf6yo x1emribx x1e56ztr x1i64zmx xjl7jj x19h7ccj xu9j1y6 x7ep2pv"]/div[2]/div[' + str(
-            num + 1) + ']'
+        posts_path = config.get('catchComments', 'posts_path') + str(num + 1) + ']'
+        print(posts_path)
         posts = browser.find_elements_by_xpath(posts_path)
 
         sql_post = "insert into fbfriends.posts values(0,\'{}\','null')".format(num + 1)
         cursor.execute(sql_post)
         cursor.connection.commit()
-        like_class = posts_path + '//*[@class="x6s0dn4 x78zum5 x1iyjqo2 x6ikm8r x10wlt62"]/div'
+        like_class_xpath = posts_path + config.get('catchComments', 'like_class_xpath')
         browser.execute_script("window.scrollBy(0,500)")
-        like = browser.find_elements_by_xpath(like_class)
+        like = browser.find_elements_by_xpath(like_class_xpath)
         if len(like) == 0:
-            browser.save_screenshot('/root/facebook-scraper/screenshots/failOn'+str(num)+'.png')
-            print("本篇无人点赞，跳过  "+like_class)
+            # browser.save_screenshot('/root/facebook-scraper/screenshots/failOn'+str(num)+'.png')
+            print("本篇无人点赞，跳过  "+like_class_xpath)
             find = False
         if find:
             # print(like_class)
@@ -74,8 +82,9 @@ def catchComments(url, browser, cursor):
             failtoslip = False
             while t:
                 time.sleep(1)
-                js = 'return document.getElementsByClassName("xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd")[0].scrollHeight;'
-                js2 = 'document.getElementsByClassName("xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd")[0].scrollTop=10000;'
+                like_box_xpath = config.get('catchComments', 'like_box_xpath')
+                js = 'return document.getElementsByClassName("'+like_box_xpath+'")[0].scrollHeight;'
+                js2 = 'document.getElementsByClassName("'+like_box_xpath+'")[0].scrollTop=10000;'
                 try:
                     check_height = browser.execute_script(js)
                     for r in range(5):
@@ -98,7 +107,7 @@ def catchComments(url, browser, cursor):
                 print("下滑失败")
                 continue
             # 获取点赞人信息
-            like_people_xpath = '//*[@class="xb57i2i x1q594ok x5lxg6s x78zum5 xdt5ytf x6ikm8r x1ja2u2z x1pq812k x1rohswg xfk6m8 x1yqm8si xjx87ck xx8ngbg xwo3gff x1n2onr6 x1oyok0e x1odjw0f x1e4zzel x1tbbn4q x1y1aw1k x4uap5 xwib8y2 xkhd6sd"]/div/div'
+            like_people_xpath = config.get('catchComments', 'like_people_xpath')
             like_peoples = browser.find_elements_by_xpath(like_people_xpath)
             like_num = 1
 
@@ -116,23 +125,23 @@ def catchComments(url, browser, cursor):
                 cursor.execute(sql)
                 # print(name)
             cursor.connection.commit()
-            close_xpath = '//*[@class="x1i10hfl x6umtig x1b1mbwd xaqea5y xav7gou x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r x16tdsg8 x1hl2dhg xggy1nq x87ps6o x1lku1pv x1a2a7pz x6s0dn4 x14yjl9h xudhj91 x18nykt9 xww2gxu x972fbf xcfux6l x1qhh985 xm0m39n x9f619 x78zum5 xl56j7k xexx8yu x4uap5 x18d9i69 xkhd6sd x1n2onr6 xc9qbxq x14qfxbe x1qhmfi1"]'
+            like_close_xpath = config.get('catchComments', 'like_close_xpath')
             try:
-                close = browser.find_element_by_xpath(close_xpath)
+                close = browser.find_element_by_xpath(like_close_xpath)
             except:
                 browser.save_screenshot('login_file.png')
             ActionChains(browser).click(close).perform()
             pass
 
         # 展开所有评论
-        view_more_comment_xpath = posts_path + '//*[@class="x78zum5 x1w0mnb xeuugli"]'
+        view_more_comment_xpath = posts_path + config.get('catchComments', 'view_more_comment_xpath')
         # print(view_more_comment_xpath)
-        view_more_comment = browser.find_elements_by_xpath(view_more_comment_xpath)
+        view_more_comment = browser.find_element_by_xpath(view_more_comment_xpath)
         times = 0
         while len(view_more_comment) > 0 and times < 5:
             for i in range(len(view_more_comment)):
                 try:
-                    ActionChains(browser).click(view_more_comment[i]).perform()
+                    ActionChains(browser).click(view_more_comment).perform()
                 except:
                     print('点击失败')
                     pass
@@ -141,7 +150,7 @@ def catchComments(url, browser, cursor):
             view_more_comment = browser.find_elements_by_xpath(view_more_comment_xpath)
             times += 1
         # 获取评论信息
-        comment_people_xpath = posts_path + '//*[@class="x1ye3gou xwib8y2 xn6708d x1y1aw1k"]'
+        comment_people_xpath = posts_path + config.get('catchComments', 'comment_people_xpath')
         # print(comment_people_xpath)
         comment_people = browser.find_elements_by_xpath(comment_people_xpath)
         comment_link_xpath = comment_people_xpath + '/span/a'

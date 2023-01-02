@@ -4,7 +4,7 @@ import os
 
 from utils import db_settings
 
-score = 21
+score = 1
 categories = []
 nodes = []
 links = []
@@ -25,6 +25,11 @@ for host in hosts:
                   'weblink': host[1]
                   })
     names.append(host[0])
+    now += 1
+
+now = 0
+for host in hosts:
+    # print (host)
     sql_get_nodes_and_links = "select i_name,total_score,i_link from fbfriends.intimacy where total_score >= {} and i_host = \'{}\' ".format(
         score, host[0])
     # print(sql_get_nodes_and_links)
@@ -36,14 +41,14 @@ for host in hosts:
         link = content[2]
         hasname = False
         for name_judge in names:
-            if i_name == name_judge[0]:
+            if i_name == name_judge:
                 hasname = True
         if not hasname:
             nodes.append({'name': i_name,
                           'symbolSize': 50,
                           'category': now,
                           'weblink': link})
-            names.append(i_name);
+            names.append(i_name)
 
         links.append({'source': host[0],
                       'target': i_name,

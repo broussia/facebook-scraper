@@ -18,20 +18,20 @@ def chrome_setting():
     }
     options.add_experimental_option('prefs', prefs)
     
-    options.add_argument('--headless')
-    
-    options.add_argument('--disable-gpu')
-    
-    options.add_argument("--no-sandbox")
-    
-    options.add_argument("--remote-debugging-port=9222")  # this
+    # options.add_argument('--headless')
+    #
+    # options.add_argument('--disable-gpu')
+    #
+    # options.add_argument("--no-sandbox")
+    #
+    # options.add_argument("--remote-debugging-port=9222")  # this
 
     # linux环境
-    browser = webdriver.Chrome(r"/root/facebook-scraper/chromedriver",chrome_options=options)
+    # browser = webdriver.Chrome(r"/root/facebook-scraper/chromedriver",chrome_options=options)
 
     # win环境
-    # browser = webdriver.Chrome(r"D:\programs\chromedriver.exe")
-    # browser.maximize_window()  # 浏览器窗口最大化
+    browser = webdriver.Chrome(r"D:\programs\chromedriver.exe")
+    browser.maximize_window()  # 浏览器窗口最大化
     browser.implicitly_wait(10)
     return browser
 

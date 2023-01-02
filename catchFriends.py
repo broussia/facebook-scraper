@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 import time
+import configparser
 import pandas as pd
 import xlsxwriter
 import json
@@ -28,11 +29,17 @@ hostname = 'kook.wanwisa.1'
 # jbkatente.king
 # antony.olentiati
 def catchFriends(host, browser, cursor):
+
+    config = configparser.ConfigParser()
+    path = 'xpaths.ini'
+    config.read(path)
+
     url = host + '/friends'
     print(url)
     browser.get(url)
     time.sleep(1)
-    hostname_xpath = '//*[@class="x78zum5 xdt5ytf x1wsgfga x9otpla"]/div'
+    # hostname_xpath = '//*[@class="x78zum5 xdt5ytf x1wsgfga x9otpla"]/div'
+    hostname_xpath = config.get('common', 'hostname_xpath')
     hostname = browser.find_element_by_xpath(hostname_xpath).text.split(' （')[0].split(' (')[0].replace("'", " ")
     print(hostname)
 
@@ -49,7 +56,9 @@ def catchFriends(host, browser, cursor):
             t = False
 
     # 定位好友信息对应的元素
-    following_path = "//div[@class='x1swvt13 x1l90r2v x1pi30zi xyamay9']/div[@class='x78zum5 x1q0g3np x1a02dak x1qughib']/div"
+    # following_path = "//div[@class='xyamay9 x1pi30zi x1l90r2v x1swvt13']/div[@class='x78zum5 x1q0g3np x1a02dak x1qughib']/div"
+    following_path = config.get('catchFriends', 'following_path')
+
     num = 1
     # print(following_path)
     elements = browser.find_elements_by_xpath(following_path)
