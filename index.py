@@ -11,10 +11,10 @@ cursor.execute(sql_getHosts)
 hosts = cursor.fetchall()
 browser = chrome_setting()
 login(browser)
-# for host in hosts:
-#     # print(host[0])
-#     catchFriends(host[1], browser, cursor)
-#     pass
+for host in hosts:
+    # print(host[0])
+    catchFriends(host[1], browser, cursor)
+    # pass
 
 for host in hosts:
     catchComments(host[1], browser, cursor)

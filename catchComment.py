@@ -136,32 +136,22 @@ def catchComments(url, browser, cursor):
         # 展开所有评论
         view_more_comment_xpath = posts_path + config.get('catchComments', 'view_more_comment_xpath')
         # print(view_more_comment_xpath)
-        view_more_comment = browser.find_element_by_xpath(view_more_comment_xpath)
-        times = 0
-        while len(view_more_comment) > 0 and times < 5:
-            for i in range(len(view_more_comment)):
-                try:
-                    ActionChains(browser).click(view_more_comment).perform()
-                except:
-                    print('点击失败')
-                    pass
+        try:
+            view_more_comment = browser.find_element_by_xpath(view_more_comment_xpath)
+            ActionChains(browser).click(view_more_comment).perform()
+        except:
+            print('点击失败或没有评论')
+            continue
 
-                time.sleep(1)
-            view_more_comment = browser.find_elements_by_xpath(view_more_comment_xpath)
-            times += 1
+        time.sleep(1)
+        # view_more_comment = browser.find_elements_by_xpath(view_more_comment_xpath)
         # 获取评论信息
-        comment_people_xpath = posts_path + config.get('catchComments', 'comment_people_xpath')
+        comment_people_xpath = config.get('catchComments', 'comment_people_xpath')
         # print(comment_people_xpath)
         comment_people = browser.find_elements_by_xpath(comment_people_xpath)
-        comment_link_xpath = comment_people_xpath + '/span/a'
+        comment_link_xpath = comment_people_xpath + '/div/span/a'
         comment_links = browser.find_elements_by_xpath(comment_link_xpath)
 
-        # comment_content_xpath = posts_path + '//*[@class="d2hqwtrz o9wcebwi b6ax4al1"]'
-        # print(comment_content_xpath)
-        # comment_content = browser.find_elements_by_xpath(comment_content_xpath)
-        # if len(comment_people) > 0:
-        #     print()
-        #     print(comment_content[0].text)
         for n in range(len(comment_people)):
             c_name = comment_people[n].text.replace("'", " ")
             if len(c_name.split("\n")) > 1:
